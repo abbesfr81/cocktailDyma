@@ -11,8 +11,6 @@ export class CocktailsListComponent implements OnInit {
 
    cocktails: Cocktail[];
 
-  activeCocktail = 0;
-
   constructor(private cocktailService: CocktailService) { }
 
   ngOnInit() {
@@ -21,9 +19,5 @@ export class CocktailsListComponent implements OnInit {
         this.cocktails = cocktails;
       }
     );
-  }
-  public pickCocktail(index: number): void {
-    this.activeCocktail = index;
-    this.cocktailService.selectCocktail(index);
   }
 }

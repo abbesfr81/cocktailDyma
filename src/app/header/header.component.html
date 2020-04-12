@@ -1,12 +1,15 @@
 <nav class="navbar navbar-expand-md navbar-light">
-  <a class="navbar-brand" href="#">Cocktails</a>
+  <a class="navbar-brand" routerLink="/cocktails" routerLinkActive="active" >Cocktails</a>
   <button class="navbar-toggler">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse ml-auto">
-    <ul class="navbar-nav">
+    <ul class="navbar-nav ml-auto">
       <li class="nav-item">
         <a class="nav-link active" href="#">Recettes</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" routerLink="/panier"  routerLinkActive="active" >Panier</a>
       </li>
     </ul>
   </div>

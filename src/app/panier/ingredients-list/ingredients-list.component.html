@@ -1,0 +1,9 @@
+<h3>Panier : </h3>
+<hr>
+<div class="row">
+  <ul class="col-12 list-group">
+    <li *ngFor="let ingredient of ingredients" class="list-group-item list-group-item-action d-flex">
+      {{ ingredient.name }} <span class="badge badge-light badge-pill ml-auto p-2 ">{{ ingredient.quantity }}</span>
+    </li>
+  </ul>
+</div>
