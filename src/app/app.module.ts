@@ -12,6 +12,9 @@ import { PanierComponent } from './panier/panier.component';
 import { IngredientsListComponent } from './panier/ingredients-list/ingredients-list.component';
 import {PanierService} from './shared/services/panier.service';
 import { CocktailEditComponent } from './cocktail-container/cocktail-edit/cocktail-edit.component';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FilterPipe } from './shared/pipes/filter.pipe';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -23,11 +26,15 @@ import { CocktailEditComponent } from './cocktail-container/cocktail-edit/cockta
     ActiveDirective,
     PanierComponent,
     IngredientsListComponent,
-    CocktailEditComponent
+    CocktailEditComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [PanierService],
   bootstrap: [AppComponent]

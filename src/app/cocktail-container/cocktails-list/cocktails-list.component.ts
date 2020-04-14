@@ -10,6 +10,7 @@ import {CocktailService} from '../../shared/services/cocktail.service';
 export class CocktailsListComponent implements OnInit {
 
    cocktails: Cocktail[];
+   recherche = '';
 
   constructor(private cocktailService: CocktailService) { }
 

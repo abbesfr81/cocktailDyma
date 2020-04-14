@@ -1,30 +1,52 @@
 import { Injectable } from '@angular/core';
 import {Cocktail} from '../models/cocktail.model';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {filter, map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CocktailService {
-  public cocktails: BehaviorSubject<Cocktail[]> = new BehaviorSubject( [
-    new Cocktail('Mojito',
-      'http://anotherwhiskyformisterbukowski.com/wp-content/uploads/2016/09/mojito-1.jpg', "" +
-      "Le mojito, prononcé en espagnol, est un cocktail à base de rhum, de citron vert et de feuilles de menthe fraîche, né à Cuba dans les années 1910.",
-      [{name: 'perrier', quantity: 1}, {name: 'menthe', quantity: 1}]),
-    new Cocktail('Margarita',
-      'https://cdn.liquor.com/wp-content/uploads/2017/07/05150949/Frozen-Margarita-720x720-recipe.jpg',
-      "La Margarita est un cocktail à base de tequila, inventé par des Américains au Mexique. C'est un before lunch qui serait une version du cocktail daisy dans lequel on remplaça le brandy par de la téquila.",
-      [{name: 'citron vert', quantity: 1}, {name: 'tequila', quantity: 1}]),
-    new Cocktail('Sour',
-      'https://cdn.liquor.com/wp-content/uploads/2016/08/03142547/Most-Popular-Cocktail-Recipes-July-2016-whiskey-sour-720x378-social.jpg',
-      "Le Gin Sour est un cocktail mixte traditionnel qui précède la prohibition aux États-Unis d'Amérique . C'est une combinaison simple de gin, de jus de citron et de sucre. Ajouter de l'eau gazeuse à ceci le transforme en un gin fizz .",
-      [{name: 'citron Jaune', quantity: 2}, {name: 'tequila', quantity: 3}])
-  ]);
+  public cocktails: BehaviorSubject<Cocktail[]> = new BehaviorSubject(null);
 
 
-  constructor() { }
+  constructor(private http: HttpClient) {
+   this.cocktailsInit();
+  }
 
-  getCocktail(index: number): Cocktail {
-    return this.cocktails.value[index];
+  cocktailsInit(): void {
+    this.http.get<Cocktail []>('https://cocktails-angular-ba9bb.firebaseio.com/cocktails.json').subscribe(cocktails => {
+      this.cocktails.next(cocktails);
+    });
+  }
+
+  getCocktail(index: number): Observable<Cocktail> {
+    return this.cocktails.pipe(
+      filter(cocktails => cocktails != null),
+      map(cocktails => cocktails[index])
+    );
+  }
+
+  addCocktail(cocktail: Cocktail) {
+    const cocktails = this.cocktails.value;
+    cocktails.push({name: cocktail.name, img: cocktail.img, desc: cocktail.desc, ingredients: cocktail.ingredients});
+    this.cocktails.next(cocktails);
+  }
+
+  editCocktail(editCocktail: Cocktail) {
+    const cocktails = this.cocktails.value;
+    const index = cocktails.findIndex(c => c.name === editCocktail.name);
+    cocktails[index] = editCocktail;
+    this.cocktails.next(cocktails);
+    this.saveCocktail();
+  }
+  saveCocktail(): void {
+    console.log(this.cocktails.value);
+    this.http.put<Cocktail[]>('https://cocktails-angular-ba9bb.firebaseio.com/cocktails.json', this.cocktails.value).subscribe(
+      (cock) => {
+        this.cocktails.next(cock);
+      }
+    );
   }
 }

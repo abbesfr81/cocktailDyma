@@ -24,12 +24,13 @@ export class CocktailsDetailsComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe((params: Params) => {
       if (params.get('index')) {
         this.index = params.get('index');
-        this.cocktail = this.cocktailService.getCocktail(params.get('index'));
       } else {
         this.index = 0;
-        this.cocktail = this.cocktailService.getCocktail(0);
+
       }
+      this.cocktailService.getCocktail(this.index).subscribe(cocktails => this.cocktail = cocktails);
     });
+
   }
 
   addPanier(ingredients: Ingredient[]): void{
