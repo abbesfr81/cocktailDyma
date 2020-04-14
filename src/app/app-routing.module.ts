@@ -8,13 +8,7 @@ import {CocktailEditComponent} from './cocktail-container/cocktail-edit/cocktail
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'cocktails', pathMatch: 'full'},
-  { path: 'panier', component: PanierComponent },
-  { path: 'cocktails', component: CocktailContainerComponent, children: [
-      { path: 'new', component: CocktailEditComponent},
-      { path: ':index/edit', component: CocktailEditComponent},
-      { path: ':index', component: CocktailsDetailsComponent },
-      { path: '', component: CocktailsDetailsComponent }
-    ] }
+  { path: 'panier', component: PanierComponent }
 ];
 
 @NgModule({
